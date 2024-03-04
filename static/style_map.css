@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+body{
+    font-family: 'Poppins';
+    display: flex;
+    /* height: 400vh; */
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(45deg, rgb(138, 228, 183), rgb(170, 196, 241));
+}
+
+.container {
+    max-width: 90%;
+    min-width: 90%;
+    display: flex;
+    justify-content: space-between;
+    width: auto;
+}
+
+.half-container {
+    /* min-width: 600px; */
+    background-color: white;
+    width:calc(35% - 15px);
+    margin: 15px;
+    border-radius: 10px;
+}
+
+.half-container2 {
+    background-color: white;
+    width:calc(65% - 15px);
+    margin: 15px;
+    border-radius: 10px;
+}
+
+.results-map{
+    display: flex;
+    justify-content: center;
+    margin: 25px 25px 0 25px;
+}
+
+.results {
+    font-size: 18px;
+    width:calc(35% - 10px);
+    margin-left: 30px;
+}
+
+#map{
+    width:calc(65% - 10px);
+    margin: 30px 60px 30px 30px;
+    display: flex;
+    justify-content: right;
+}
+#map2D{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.left-side{
+    margin: 40px 30px 30px 30px;
+}
+
+.title{
+    font-size: 35px;
+    font-weight: 600;
+    position: relative;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+
+.title::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 35px;
+    background: linear-gradient(45deg, rgb(138, 228, 183), rgb(170, 196, 241));
+}
+
+.results .title::before{
+    width: 28px;
+}
+
+.wsp{
+    font-size: 28px;
+    color: grey;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+.back{
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+    color: black;
+    text-decoration: none;
+    font-size: 22px;
+    position: relative;
+    transition: all 0.5s ease;
+}
+.back:hover{
+    font-weight: bold;
+    transform: scale(105%);
+}
+
+.back::before{
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 2px;
+    width: 135px;
+    background: linear-gradient(45deg, rgb(138, 228, 183), rgb(170, 196, 241));
+    z-index: 1;
+}
+
+.dis-az{
+    margin-top: 30px;
+    font-size: 20px;
+    margin-top: 50px;
+}
+
+.dis-az p{
+    margin-top: 20px;
+}
+
+.wsp p{
+    margin: 5px 20px 0 0;
+}
