@@ -2,144 +2,141 @@
 <html>
 <head>
     <title>Kalkulator</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styl.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='cities.js') }}"></script>
 </head>
 
 <body>
-    <div class="container">
+    <div class="main">
         <a class="title" href="http://127.0.0.1:5000">Odległość</a>
         <form action="/calculate" method="post">
-            <div class="user-details">
-                <div class="start-details">
-                    <div class="input-box">
-                        <div class="title-select">
-                            <div class="box-title">Punkt początkowy</div>
+            <div class="container">
+                <div class="columnContainer">
+                    <div class="titleContainer">
+                        <div class="box-title">Punkt początkowy</div>
+                        <div class="selectBoxContainer">
                             <select class="select-box" id="cities">
                                 <option value="">Wybierz miasto</option>
-                                <option value="warsaw">Warszawa</option>
-                                <option value="berlin">Berlin</option>
-                                <option value="losangeles">Los Angeles</option>
                                 <option value="bangkok">Bangkok</option>
+                                <option value="berlin">Berlin</option>
+                                <option value="brasilia">Brasilia</option>
+                                <option value="lagos">Lagos</option>
+                                <option value="losangeles">Los Angeles</option>
+                                <option value="moskwa">Moskwa</option>
+                                <option value="sydney">Sydney</option>
+                                <option value="tokyo">Tokio</option>
+                                <option value="warsaw">Warszawa</option>
                             </select>
+                            <div class="chevron-container">
+                                <img src="{{ url_for('static', filename='chevron.png') }}" alt="chevron">
+                            </div>
                         </div>
-                        <div class="name">
-                            <span class="details">Nazwa</span>
-                            <input type="text" id="name1" name="name1" value="{{ name1|default('') }}">
-                        </div>
-                        <div class=details-row>
-                            <span class="details">Szerokość geograficzna</span>
-                            <input type="text" id="Latitude1" name="Latitude1" value="{{ Latitude1|default('') }}">
-                        </div>
+                    </div>
+                    <div class="nameContainer">
+                        <span>Nazwa</span>
+                        <input type="text" id="name1" name="name1" placeholder="label" value="{{ name1|default('') }}">
+                    </div>
+                    <div class="coordinatesContainer">
+                        <span>Szerokość geograficzna</span>
+                        <input type="text" id="Latitude1" name="Latitude1" placeholder="52.2323&deg;" value="{{ Latitude1|default('') }}">
                         <div class="input-radio">
                             <div class="button1">
                                 <div>
                                     <input type="radio" id="dot-start-north" name="start-v" value="dot-start-north" {% if start_v == 'dot-start-north' %} checked {% endif %}>
-                                    <span class="dot-one"></span>
-                                    <span>North</span>
+                                    <label for="dot-start-north">North</label>
                                 </div>
                                 <div>
                                     <input type="radio" id="dot-start-south" name="start-v" value="dot-start-south" {% if start_v == 'dot-start-south' %} checked {% endif %}>
-                                    <span class="dot-one"></span>
-                                    <span>South</span>
+                                    <label for="dot-start-south">South</label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="input-box">
-                        <div class=details-row>
-                            <span class="details">Długość geograficzna</span>
-                            <input type="text" id="Longitude1" name="Longitude1" value="{{ Longitude1|default('') }}">
-                        </div>
+                    <div class="coordinatesContainer">
+                        <span>Długość geograficzna</span>
+                        <input type="text" id="Longitude1" name="Longitude1" placeholder="18.2323&deg;" value="{{ Longitude1|default('') }}">
                         <div class="input-radio">
                             <div class="button1">
                                 <div>
                                     <input type="radio" name="start-h" id="dot-start-east" value="dot-start-east" {% if start_h == 'dot-start-east' %} checked {% endif %}>
-                                    <span class="dot-one"></span>
-                                    <span>East</span>
+                                    <label for="dot-start-east">East</label>
                                 </div>
                                 <div>
                                     <input type="radio" name="start-h" id="dot-start-west" value="dot-start-west" {% if start_h == 'dot-start-west' %} checked {% endif %}>
-                                    <span class="dot-one"></span>
-                                    <span>West</span>
+                                    <label for="dot-start-west">West</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>            
-                <div class="end-details">
-                    <div class="input-box">
-                        <div class="title-select">
-                            <div class="box-title">Punkt końcowy</div>
+                <div class="columnContainer">
+                    <div class="titleContainer">
+                        <div class="box-title">Punkt końcowy</div>
+                        <div class="selectBoxContainer">
                             <select class="select-box" id="cities2">
                                 <option value="">Wybierz miasto</option>
-                                <option value="warsaw">Warszawa</option>
-                                <option value="berlin">Berlin</option>
-                                <option value="losangeles">Los Angeles</option>
                                 <option value="bangkok">Bangkok</option>
+                                <option value="berlin">Berlin</option>
+                                <option value="brasilia">Brasilia</option>
+                                <option value="lagos">Lagos</option>
+                                <option value="losangeles">Los Angeles</option>
+                                <option value="moskwa">Moskwa</option>
+                                <option value="sydney">Sydney</option>
+                                <option value="tokyo">Tokio</option>
+                                <option value="warsaw">Warszawa</option>
                             </select>
+                            <div class="chevron-container">
+                                <img src="{{ url_for('static', filename='chevron.png') }}" alt="chevron">
+                            </div>
                         </div>
-                        <div class="name">
-                            <span class="details">Nazwa</span>
-                            <input type="text" id="name2" name="name2" value="{{ name2|default('') }}">
-                        </div>
-                        <div class="details-row">
-                            <span class="details">Szerokość geograficzna</span>
-                            <input type="text" id="Latitude2" name="Latitude2" value="{{ Latitude2|default('') }}"">
-                        </div>
+                    </div>
+                    <div class="nameContainer">
+                        <span>Nazwa</span>
+                        <input type="text" id="name2" name="name2" placeholder="label" value="{{ name2|default('') }}">
+                    </div>
+                    <div class="coordinatesContainer">
+                        <span>Szerokość geograficzna</span>
+                        <input type="text" id="Latitude2" name="Latitude2" placeholder="52.2323&deg;" value="{{ Latitude2|default('') }}">
                         <div class="input-radio">
                             <div class="button1">
                                 <div>
                                     <input type="radio" name="end-v" id="dot-end-north" value="dot-end-north" {% if end_v == 'dot-end-north' %} checked {% endif %}>
-                                    <span class="dot-one"></span>
-                                    <span>North</span>
+                                    <label for="dot-end-north">North</label>
                                 </div>
                                 <div>
                                     <input type="radio" name="end-v" id="dot-end-south" value="dot-end-south" {% if end_v == 'dot-end-south' %} checked {% endif %}>
-                                    <span class="dot-one"></span>
-                                    <span>South</span>
+                                    <label for="dot-end-south">South</label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="input-box">
-                        <div class="details-row">
-                            <span class="details">Długość geograficzna</span>
-                            <input type="text" id="Longitude2" name="Longitude2" value="{{ Longitude2|default('') }}">
-                        </div>
+                    <div class="coordinatesContainer">
+                        <span class="details">Długość geograficzna</span>
+                        <input type="text" id="Longitude2" name="Longitude2" placeholder="18.2323&deg;" value="{{ Longitude2|default('') }}">
                         <div class="input-radio">
                             <div class="button1">
                                 <div>
                                     <input type="radio" name="end-h" id="dot-end-east" value="dot-end-east" {% if end_h == 'East' %} checked {% endif %}>
-                                    <span class="dot-one"></span>
-                                    <span>East</span>
+                                    <label for="dot-end-east">East</label>
                                 </div>
                                 <div>
                                     <input type="radio" name="end-h" id="dot-end-west" value="dot-end-west" {% if end_h == 'West' %} checked {% endif %}>
-                                    <span class="dot-one"></span>
-                                    <spa>West</span>
+                                    <label for="dot-end-west">West</label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
-            <div class="button-container">
-                <div class="button">
-                    <input type="submit" href="map.html" value="Oblicz">
-                    <div class="error-message">
-                        {% if error_message %}
-                            <p>{{ error_message }}</p>
-                        {% endif %}
-                    </div>
+            <div class="countButton-container">
+                <input type="submit" href="map.html" value="Oblicz">
+                <div class="error-message">
+                    {% if error_message %}
+                        <p>{{ error_message }}</p>
+                        <p>Podana liczba musi być całkowita lub dziesiętna oddzielona kropką</p>
+                    {% endif %}
                 </div>
-            </div>
-            <div class="additional-message">
-                {% if error_message %}
-                    <p>Podana liczba musi być całkowita lub dziesiętna oddzielona kropką</p>
-                {% endif %}
             </div>
         </form>
     </div>

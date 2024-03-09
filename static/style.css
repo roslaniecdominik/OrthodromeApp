@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} 
+
+body {
+    font-family: 'Poppins';
+    font-size: 26px;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(45deg, rgb(138, 228, 183), rgb(170, 196, 241));
+}
+
+.main {
+    width: 1200px;
+    height: 500px;
+    background-color: white;
+    padding: 25px 30px;
+    border-radius: 12px;
+}
+
+.main .title {
+    display: block;
+    color: black;
+    text-decoration: none;
+    font-size: 40px;
+    font-weight: 600;
+    position: relative;
+    margin-bottom: 10px;
+    transition: all 0.5s ease;
+    width: 20%;
+}
+
+.main .title:hover {
+    transform: translateX(5px) scale(102%);
+}
+
+.main .title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 40px;
+    background: linear-gradient(45deg, rgb(138, 228, 183), rgb(170, 196, 241));
+}
+
+.container {
+    margin: 5px;
+    width: 98%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.columnContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 47%;
+}
+
+.titleContainer, .nameContainer, .coordinatesContainer{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.titleContainer {
+    margin-top: 10px;
+}
+
+.box-title {
+    min-width: 140px;
+    font-weight: bold;
+    height: 100%;
+}
+
+.selectBoxContainer {
+    position: relative;
+    height: 100%;
+}
+
+.select-box {
+    height: 100%;
+    text-align: center;
+    width: 200px;
+    font-family: 'Poppins';
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 3px 10px;
+    border-radius: 10px 0 0 10px;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.chevron-container {
+    position: relative;
+}
+.chevron-container img {
+    position: absolute;
+    width: 12px;
+    bottom: 15px;
+    right: 5px;
+    pointer-events: none;
+}
+
+.nameContainer {
+    margin-bottom: 20px;
+}
+
+input[type="text"]{
+    box-shadow: 0px 0px 6px 0px rgba(66, 68, 90, 1);
+    font-family: inherit;
+    border: none;
+    padding: 3px 10px;
+    border-radius: 10px;
+    transition: all 0.3s ease-in;
+    justify-content: flex-end;
+    min-width: 180px;
+    outline: none;
+    width: 200px;
+    font-size: 20px;
+}
+input[type="text"]:hover{
+    transform: scale(102%);
+    background-color: rgb(228, 229, 240);
+}
+
+::placeholder {
+    color: #999;
+}
+
+input[type="text"]:not(:placeholder-shown) {
+    color: black;
+    font-weight: bold;
+}
+
+.input-radio {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.button1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+}
+
+.button1 div {
+    display: flex;
+    width: 70px;
+    align-items: center;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+    border-radius: 50%;
+    border: 1px solid;
+    width: 16px;
+    height: 16px;
+    transition: all 0.3s ease-in;
+    accent-color: rgb(0, 0, 0);
+}
+
+input[type="radio"]:hover {
+    transform: scale(105%);
+}
+
+input[type="radio"]:hover + label {
+    font-weight: bold;
+}
+
+.countButton-container {
+    margin: 5px;
+    height: 60px;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.countButton-container input {
+    font-size: 20px;
+    height: 40px;
+    width: 100px;
+    box-shadow: 0px 0px 6px 0px rgba(66, 68, 90, 1);
+    color: rgb(64, 64, 64);
+    font-family: inherit;
+    font-weight: bold;
+    border: none;
+    padding: 5px 20px;
+    border-radius: 20px;
+    transition: all 0.2s ease-in;
+    background-color: white;
+}
+
+.countButton-container input:hover{
+    transform: scale(102%);
+    background-color: rgb(228, 229, 240);
+}
+
+.error-message {
+    margin-left: 20px;
+    align-items: center;
+    color: red;
+    font-size: 20px;
+}
+
+@media screen and (max-width: 1200px) {
+    .main {
+        width: 90%;
+        height: auto;
+    }
+    .main .title {
+        font-size: 70px;
+    }
+    .main .container {
+        height: 800px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .columnContainer {
+        width: 95%;
+        font-size: 30px;
+    }
+    .selectBoxContainer {
+        width: 40%;
+    }
+    .select-box {
+        width: 100%;
+        font-size: 26px;
+    }
+    .chevron-container img {
+        right: 20px;
+        bottom: 18px;
+    }
+    input[type="text"] {
+        width: 40%;
+        font-size: 20px;
+    }
+    .button1 {
+        width: 40%;
+        font-size: 26px;
+    }
+    .button1 div {
+        width: 33%;
+    }
+    .countButton-container {
+        height: 80px;
+        width: 100%;
+    }
+    .countButton-container input {
+        width: 120px;
+        height: 50px;
+        font-size: 26px;
+    }
+    .error-message {
+        width: 80%;
+        font-size: 20px;
+    }
+}

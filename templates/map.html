@@ -7,78 +7,74 @@
 </head>
 <body>
     <div class="container">
-        <div class="half-container">
-            <div class="left-side">
-                {% if name1 is defined %}
-                    <p class="title">{{ name1 }}</p>
-                {% endif %}
-                <div class="wsp">
-                    {% if Latitude1 is defined %}
-                        <p>{{ Latitude1 }}</p>
-                        <p>{{ Longitude1 }}</p>
+        <div class="firstColumnContainer">
+            <div class="firstResultContainer">
+                <p class="table">Wyniki</p>
+                <div class="firstResultBox">
+                    {% if distance is defined %}
+                        <p>Odległość: {{ distance }} km</p>
                     {% endif %}
-                </div>      
-                {% if name2 is defined %}
-                    <p class="title">{{ name2 }}</p>
-                {% endif %}
-                <div class="wsp">
-                    {% if Latitude2 is defined %}
-                        <p>{{ Latitude2 }}</p>
-                        <p>{{ Longitude2 }}</p>
-                    {% endif %}
-                </div>
-                <a class="back" href="http://127.0.0.1:5000">Powrót do strony głównej</a>
-            </div>
-        </div>
-        <div class="half-container2">
-            <div class="results-map">
-                <div class="results">
-                    <p class="title">Wyniki</p>
-                    <div class="dis-az">
-                        {% if distance is defined %}
-                            <p>Odległość: {{ distance }} km</p>
-                        {% endif %}
-                        
-                        {% if azimuth is defined %}
-                            <p>Azymut: {{ azimuth }} &deg;</p>
-                        {% endif %}
                     
-                        {% if azimuth_inv is defined %}
-                            <p>Azymut odwrotny: {{ azimuth_inv }} &deg;</p>
-                        {% endif %}
-                    </div>
+                    {% if azimuth is defined %}
+                        <p>Azymut: {{ azimuth }} &deg;</p>
+                    {% endif %}
+                
+                    {% if azimuth_inv is defined %}
+                        <p>Azymut odwrotny: {{ azimuth_inv }} &deg;</p>
+                    {% endif %}
                 </div>
-                <div id="map"></div>
-                <script>
-                    // Tworzenie figury mapy
-                    var fig = JSON.parse('{{ fig | safe }}');
-
-                    // Dane z obiektu Figure
-                    var latitudes = fig['data'][0]['lat'];
-                    var longitudes = fig['data'][0]['lon'];
-
-                    // Zmiana kolorów ziemi
-                    fig['layout']['geo']['oceancolor'] = 'lightblue';
-                    fig['layout']['geo']['landcolor'] = 'lightgreen';
-
-                    // Wyświetlenie mapy
-                    var myPlot = document.getElementById('map');
-                    Plotly.newPlot(myPlot, fig.data, fig.layout);
-                </script>
             </div>
+            <div id="map"></div>
+            <script>
+                const fig = JSON.parse('{{ fig | safe }}');
+                const latitudes = fig['data'][0]['lat'];
+                const longitudes = fig['data'][0]['lon'];
 
+                fig['layout']['geo']['oceancolor'] = 'lightblue';
+                fig['layout']['geo']['landcolor'] = 'lightgreen';
+
+                const myPlot = document.getElementById('map');
+                Plotly.newPlot(myPlot, fig.data, fig.layout);
+            </script>
+            <a class="back" href="http://127.0.0.1:5000">Powrót do strony głównej</a>
+        </div>
+
+
+
+        <div class="secondColumnContainer">
+            <div class="secondResultContainer">
+                <div class="secondResultBox">
+                    {% if name1 is defined %}
+                        <p class="table">{{ name1 }}</p>
+                    {% endif %}
+                    <div class="coordinates">
+                        {% if Latitude1 is defined %}
+                            <p>{{ Latitude1 }}</p>
+                            <p>{{ Longitude1 }}</p>
+                        {% endif %}
+                    </div>  
+                </div>
+                <div class="secondResultBox">
+                    {% if name2 is defined %}
+                        <p class="table">{{ name2 }}</p>
+                    {% endif %}
+                    <div class="coordinates">
+                        {% if Latitude2 is defined %}
+                            <p>{{ Latitude2 }}</p>
+                            <p>{{ Longitude2 }}</p>
+                        {% endif %}
+                    </div>  
+                </div>
+            </div>
             <div id="map2D"></div>
             <script>
-                var fig2d = JSON.parse('{{ fig2d | safe }}'); // Pobranie danych figury 2D
-
-                var latitudes2D = fig2d['data'][0]['lat'];
-                var longitudes2D = fig2d['data'][0]['lon'];
+                const fig2d = JSON.parse('{{ fig2d | safe }}');
+                const latitudes2D = fig2d['data'][0]['lat'];
+                const longitudes2D = fig2d['data'][0]['lon'];
                 
-                // Wyświetlenie mapy 2D
-                var myPlot2D = document.getElementById('map2D');
+                const myPlot2D = document.getElementById('map2D');
                 Plotly.newPlot(myPlot2D, fig2d.data, fig2d.layout);
             </script>
-            </div>
         </div>
     </div>
 </body>

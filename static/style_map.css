@@ -1,75 +1,127 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
-body{
+::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+    background:rgb(170, 196, 241)
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     font-family: 'Poppins';
     display: flex;
-    /* height: 400vh; */
+    height: max-content;
+    min-height: 100vh;
+    width: auto;
     justify-content: center;
     align-items: center;
     background: linear-gradient(45deg, rgb(138, 228, 183), rgb(170, 196, 241));
 }
 
 .container {
-    max-width: 90%;
-    min-width: 90%;
+    margin-top: 60px 0;
+    width: 98%;
+    min-height: 100vh;
+    max-height: max-content;
     display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 30px 0;
+    align-items: stretch;
+}
+
+.firstColumnContainer {
+    background-color: white;
+    /* min-width: 350px; */
+    width: 35%;
+    /* max-height: 90%; */
+    padding: 15px;
+    border-radius: 10px;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
-    width: auto;
 }
 
-.half-container {
-    /* min-width: 600px; */
-    background-color: white;
-    width:calc(35% - 15px);
-    margin: 15px;
-    border-radius: 10px;
+.firstResultContainer{
+    width: 100%;
+    padding: 25px 25px 0 25px;
+    height: auto;
 }
 
-.half-container2 {
-    background-color: white;
-    width:calc(65% - 15px);
-    margin: 15px;
-    border-radius: 10px;
+.firstResultBox {
+    margin-left: 25px;
+    font-size: 24px;
 }
 
-.results-map{
+.firstResultBox p {
+    margin: 5px 0;
+}
+
+#map {
+    width: 90%;
+    height: auto;
+    margin: 35px auto;
     display: flex;
     justify-content: center;
-    margin: 25px 25px 0 25px;
 }
 
-.results {
-    font-size: 18px;
-    width:calc(35% - 10px);
-    margin-left: 30px;
-}
-
-#map{
-    width:calc(65% - 10px);
-    margin: 30px 60px 30px 30px;
-    display: flex;
-    justify-content: right;
-}
-#map2D{
+.back {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin: 20px 0;
+    color: black;
+    text-decoration: none;
+    font-size: 22px;
+    position: relative;
+    transition: all 0.5s ease;
+    height: auto;
+}
+.back:hover {
+    font-weight: bold;
+    transform: scale(103%) translateY(1px);
 }
 
-.left-side{
-    margin: 40px 30px 30px 30px;
+.back::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 2px;
+    width: 75%;
+    background: linear-gradient(45deg, rgb(138, 228, 183), rgb(170, 196, 241));
+    z-index: 1;
 }
 
-.title{
+.table {
     font-size: 35px;
     font-weight: 600;
+    width: 100%;
+    height: auto;
     position: relative;
-    margin-bottom: 10px;
-    margin-top: 15px;
+    margin: 0 0 10px 15px;
+    align-content: center;
 }
 
-
-.title::before{
+.table::before {
     content: '';
     position: absolute;
     left: 0;
@@ -79,55 +131,64 @@ body{
     background: linear-gradient(45deg, rgb(138, 228, 183), rgb(170, 196, 241));
 }
 
-.results .title::before{
-    width: 28px;
-}
-
-.wsp{
+.coordinates {
     font-size: 28px;
     color: grey;
     display: flex;
     align-items: flex-start;
-    margin-bottom: 30px;
+    justify-content: start;
+    width: 85%;
+    margin-left: 15px;
+    gap: 15px;
 }
 
-.back{
+.secondColumnContainer {
+    background-color: white;
+    /* min-width: 600px; */
+    width: 60%;
+    padding: 15px;
+    border-radius: 10px;
+    height: auto;
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: flex-start; */
+    flex-direction: column;
+}
+
+.secondResultContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.secondResultBox {
+    width: auto;
+    align-items: center;
+    width: 58%;
+    display: flex;
+    flex-direction: column;
+}
+
+.secondResultBox div {
+    display: flex;
+}
+
+#map2D {
+    width: 90%;
+    min-height: 450px;
+    height: 80%;
+    margin: 15px auto;
     display: flex;
     justify-content: center;
-    margin-top: 80px;
-    color: black;
-    text-decoration: none;
-    font-size: 22px;
-    position: relative;
-    transition: all 0.5s ease;
-}
-.back:hover{
-    font-weight: bold;
-    transform: scale(105%);
 }
 
-.back::before{
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 2px;
-    width: 135px;
-    background: linear-gradient(45deg, rgb(138, 228, 183), rgb(170, 196, 241));
-    z-index: 1;
-}
-
-.dis-az{
-    margin-top: 30px;
-    font-size: 20px;
-    margin-top: 50px;
-}
-
-.dis-az p{
-    margin-top: 20px;
-}
-
-.wsp p{
-    margin: 5px 20px 0 0;
+@media screen and (max-width: 1400px) {
+    body {
+        align-items: baseline;
+    }
+    .firstColumnContainer, .secondColumnContainer {
+        width: 100%;
+    }
 }

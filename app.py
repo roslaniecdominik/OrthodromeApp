@@ -213,7 +213,7 @@ def show_map():
         mode='lines',
         line=dict(
             width=2,
-            color='blue'
+            color='red'
         ),
         name='Distance',
         showlegend=False
@@ -225,9 +225,8 @@ def show_map():
         lat=latitudes,
         mode='markers',
         marker=dict(
-
             size=6,
-            color='grey',
+            color='red',
             opacity=0.8,
             symbol='circle'
         ),
@@ -241,8 +240,6 @@ def show_map():
             showocean=True,
             showland=True,
         ),
-        height=280,
-        width=280,
         margin={"r":5, "t":0, "l":0, "b":0}
     )
 
@@ -260,7 +257,7 @@ def show_map():
         mode="markers",
         lat=[PB[0], PB[-1]], 
         lon=[PL[0], PL[-1]], 
-        marker={"size": 5},
+        marker=dict(size=5, color="red"),
         showlegend=False))
 
     # Dodanie linii łączących punkty
@@ -268,7 +265,7 @@ def show_map():
         mode="lines",
         lat=PB,
         lon=PL,
-        line=dict(width=2, color='green'),
+        line=dict(width=2, color='red'),
         showlegend=False))
     
     if float(session.get('distance')) > 9000000:
@@ -286,8 +283,6 @@ def show_map():
     
     fig2d.update_layout(
         margin={'l': 5, 't': 5, 'b': 20, 'r': 5},
-        height=500,
-        width=750,
         mapbox={
             'style': 'open-street-map',
             'center': {'lon': ((PL[0]+PL[-1])/2), 'lat': ((PB[0]+PB[-1])/2)},
@@ -330,7 +325,7 @@ def show_map():
 
         azimuth = round(float(azimuth))
         azimuth_inv = round(float(azimuth_inv))
-
+        
     return render_template('map.html', 
                            fig=json.dumps(fig_dict), 
                            fig2d=json.dumps(fig2d_dict), 
