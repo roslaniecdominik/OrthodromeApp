@@ -4,7 +4,7 @@
     <title>Kalkulator</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ url_for('static', filename='cities.js') }}"></script>
+    
 </head>
 
 <body>
@@ -18,15 +18,6 @@
                         <div class="selectBoxContainer">
                             <select class="select-box" id="cities">
                                 <option value="">Wybierz miasto</option>
-                                <option value="bangkok">Bangkok</option>
-                                <option value="berlin">Berlin</option>
-                                <option value="brasilia">Brasilia</option>
-                                <option value="lagos">Lagos</option>
-                                <option value="losangeles">Los Angeles</option>
-                                <option value="moskwa">Moskwa</option>
-                                <option value="sydney">Sydney</option>
-                                <option value="tokyo">Tokio</option>
-                                <option value="warsaw">Warszawa</option>
                             </select>
                             <div class="chevron-container">
                                 <img src="{{ url_for('static', filename='chevron.png') }}" alt="chevron">
@@ -76,15 +67,6 @@
                         <div class="selectBoxContainer">
                             <select class="select-box" id="cities2">
                                 <option value="">Wybierz miasto</option>
-                                <option value="bangkok">Bangkok</option>
-                                <option value="berlin">Berlin</option>
-                                <option value="brasilia">Brasilia</option>
-                                <option value="lagos">Lagos</option>
-                                <option value="losangeles">Los Angeles</option>
-                                <option value="moskwa">Moskwa</option>
-                                <option value="sydney">Sydney</option>
-                                <option value="tokyo">Tokio</option>
-                                <option value="warsaw">Warszawa</option>
                             </select>
                             <div class="chevron-container">
                                 <img src="{{ url_for('static', filename='chevron.png') }}" alt="chevron">
@@ -140,5 +122,6 @@
             </div>
         </form>
     </div>
+<script src="{{ url_for('static', filename='cities.js') }}"></script>
 </body>
 </html>

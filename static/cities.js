@@ -1,3 +1,24 @@
+const selectBox = document.querySelectorAll(".select-box")
+
+const newRowHTML = `
+<option value="bangkok">Bangkok</option>
+<option value="berlin">Berlin</option>
+<option value="brasilia">Brasilia</option>
+<option value="lagos">Lagos</option>
+<option value="losangeles">Los Angeles</option>
+<option value="moskwa">Moskwa</option>
+<option value="sydney">Sydney</option>
+<option value="tokyo">Tokio</option>
+<option value="warsaw">Warszawa</option>
+`;
+
+const selectBoxes = document.querySelectorAll(".select-box");
+
+selectBoxes.forEach(selectBox => {
+    selectBox.innerHTML += newRowHTML;
+});
+
+
 $(document).ready(function(){
     $("#cities").change(function(){
         var selectedCity = $(this).val();
