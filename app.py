@@ -69,50 +69,50 @@ def calculate():
             coord1 = [Latitude1, Longitude1]
             coord2 = [Latitude2, Longitude2]
 
-            a=6378137.0
-            f=1/298.257223563
-            b=(1-f)*a
+            a = 6378137.0
+            f = 1/298.257223563
+            b = (1-f)*a
 
-            phi_1,L_1,=coord1
-            phi_2,L_2,=coord2                  
+            phi_1, L_1 = coord1
+            phi_2, L_2 = coord2                  
 
-            u_1=arctan((1-f)*tan(radians(phi_1)))
-            u_2=arctan((1-f)*tan(radians(phi_2)))
+            u_1 = arctan((1-f)*tan(radians(phi_1)))
+            u_2 = arctan((1-f)*tan(radians(phi_2)))
 
-            L=radians(L_2-L_1)
+            L = radians(L_2-L_1)
 
-            Lambda=L         
+            Lambda = L         
 
-            sin_u1=sin(u_1)
-            cos_u1=cos(u_1)
-            sin_u2=sin(u_2)
-            cos_u2=cos(u_2)
+            sin_u1 = sin(u_1)
+            cos_u1 = cos(u_1)
+            sin_u2 = sin(u_2)
+            cos_u2 = cos(u_2)
 
             # --- BEGIN ITERATIONS -----
-            iters=0
-            for i in range(0,200):
-                iters+=1
+            
+            for iters in range(0, 200):
+                iters += 1
                 
-                cos_lambda=cos(Lambda)
-                sin_lambda=sin(Lambda)
-                sin_sigma=sqrt((cos_u2*sin(Lambda))**2+(cos_u1*sin_u2-sin_u1*cos_u2*cos_lambda)**2)
-                cos_sigma=sin_u1*sin_u2+cos_u1*cos_u2*cos_lambda
-                sigma=arctan2(sin_sigma,cos_sigma)
-                sin_alpha=(cos_u1*cos_u2*sin_lambda)/sin_sigma
-                cos_sq_alpha=1-sin_alpha**2
-                cos2_sigma_m=cos_sigma-((2*sin_u1*sin_u2)/cos_sq_alpha)
-                C=(f/16)*cos_sq_alpha*(4+f*(4-3*cos_sq_alpha))
-                Lambda_prev=Lambda
-                Lambda=L+(1-C)*f*sin_alpha*(sigma+C*sin_sigma*(cos2_sigma_m+C*cos_sigma*(-1+2*cos2_sigma_m**2)))
+                cos_lambda = cos(Lambda)
+                sin_lambda = sin(Lambda)
+                sin_sigma = sqrt((cos_u2*sin(Lambda))**2 + (cos_u1*sin_u2 - sin_u1*cos_u2*cos_lambda)**2)
+                cos_sigma = sin_u1*sin_u2 + cos_u1*cos_u2*cos_lambda
+                sigma = arctan2(sin_sigma, cos_sigma)
+                sin_alpha = (cos_u1*cos_u2*sin_lambda)/sin_sigma
+                cos_sq_alpha = 1-sin_alpha**2
+                cos2_sigma_m = cos_sigma - ((2*sin_u1*sin_u2)/cos_sq_alpha)
+                C = (f/16)*cos_sq_alpha*(4 + f*(4 - 3*cos_sq_alpha))
+                Lambda_prev = Lambda
+                Lambda = L + (1-C)*f*sin_alpha*(sigma + C*sin_sigma*(cos2_sigma_m + C*cos_sigma*(-1 + 2*cos2_sigma_m**2)))
 
-                diff=abs(Lambda_prev-Lambda)
-                if diff<=10**-12:
+                diff = abs(Lambda_prev - Lambda)
+                if diff <= 10**-12:
                     break
                 
-            u_sq=cos_sq_alpha*((a**2-b**2)/b**2)
-            A=1+(u_sq/16384)*(4096+u_sq*(-768+u_sq*(320-175*u_sq)))
-            B=(u_sq/1024)*(256+u_sq*(-128+u_sq*(74-47*u_sq)))
-            delta_sig=B*sin_sigma*(cos2_sigma_m+0.25*B*(cos_sigma*(-1+2*cos2_sigma_m**2)-(1/6)*B*cos2_sigma_m*(-3+4*sin_sigma**2)*(-3+4*cos2_sigma_m**2)))
+            u_sq = cos_sq_alpha*((a**2 - b**2)/b**2)
+            A = 1+(u_sq/16384)*(4096 + u_sq*(-768+u_sq*(320 - 175*u_sq)))
+            B = (u_sq/1024)*(256 + u_sq*(-128 + u_sq*(74 - 47*u_sq)))
+            delta_sig = B*sin_sigma*(cos2_sigma_m + 0.25*B*(cos_sigma*(-1 + 2*cos2_sigma_m**2) - (1/6)*B*cos2_sigma_m*(-3 + 4*sin_sigma**2)*(-3 + 4*cos2_sigma_m**2)))
 
             distance = b*A*(sigma-delta_sig)                                  
 
@@ -122,7 +122,6 @@ def calculate():
                         (-1 * sin(u_1) * cos(u_2) + cos(u_1) * sin(u_2) * cos(Lambda)))
             
             azimuth = degrees(azimuth)
-            default_azimuth = azimuth
             azimuth_inv = degrees(azimuth_inv) + 180
 
             session["Latitude1"] = Latitude1
@@ -163,7 +162,7 @@ def calculate():
                 L = L + dL
                 dB = ds * cos(Az) / Mp
                 B = B + dB
-                M = (a_GRS80 * (1 - e_2)) / ((sqrt(1-e_2*(sin(B)**2)))**3) #przekrój poprzeczny
+                M = (a_GRS80 * (1 - e_2)) / ((sqrt(1-e_2*(sin(B)**2)))**3)
                 N = a_GRS80 / (sqrt(1-e_2*(sin(B)**2)))
                 Az = Az + ds / Np * sin(Az) * tan(Bp)
                 s1 = s1 + ds
@@ -185,8 +184,8 @@ def calculate():
 
            
         except ValueError:
-            error_message="Wprowadź poprawne dane"
-            return render_template("index.html", error_message=error_message)
+            error_message="Please enter correct details"
+            return render_template("index.html", error_message = error_message)
         
     return render_template("map.html")
 
@@ -204,40 +203,40 @@ def show_map():
     fig = go.Figure(go.Scattergeo())
 
     fig.add_trace(go.Scattergeo(
-        locationmode="country names",
-        lon=longitudes,
-        lat=latitudes,
-        mode="lines",
-        line=dict(
-            width=2,
-            color="red"
+        locationmode = "country names",
+        lon = longitudes,
+        lat = latitudes,
+        mode = "lines",
+        line = dict(
+            width = 2,
+            color = "red"
         ),
-        name="Distance",
-        showlegend=False
+        name = "Distance",
+        showlegend = False
     ))
 
     fig.add_trace(go.Scattergeo(
-        locationmode="country names",
-        lon=longitudes,
-        lat=latitudes,
-        mode="markers",
-        marker=dict(
-            size=6,
-            color="red",
-            opacity=0.8,
-            symbol="circle"
+        locationmode = "country names",
+        lon = longitudes,
+        lat = latitudes,
+        mode = "markers",
+        marker = dict(
+            size = 6,
+            color = "red",
+            opacity = 0.8,
+            symbol = "circle"
         ),
-        name="Points",
-        showlegend=False
+        name = "Points",
+        showlegend = False
     ))
     
-    fig.update_geos(projection_type="orthographic")
+    fig.update_geos(projection_type = "orthographic")
     fig.update_layout(
-        geo=dict(
-            showocean=True,
-            showland=True,
+        geo = dict(
+            showocean = True,
+            showland = True,
         ),
-        margin={"r":5, "t":0, "l":0, "b":0}
+        margin = {"r":5, "t":0, "l":0, "b":0}
     )
 
     fig_dict = fig.to_dict()
@@ -250,18 +249,18 @@ def show_map():
     fig2d = go.Figure()
 
     fig2d.add_trace(go.Scattermapbox(
-        mode="markers",
-        lat=[PB[0], PB[-1]], 
-        lon=[PL[0], PL[-1]], 
-        marker=dict(size=5, color="red"),
-        showlegend=False))
+        mode = "markers",
+        lat = [PB[0], PB[-1]], 
+        lon = [PL[0], PL[-1]], 
+        marker = dict(size = 5, color = "red"),
+        showlegend = False))
 
     fig2d.add_trace(go.Scattermapbox(
-        mode="lines",
-        lat=PB,
-        lon=PL,
-        line=dict(width=2, color="red"),
-        showlegend=False))
+        mode = "lines",
+        lat = PB,
+        lon = PL,
+        line = dict(width = 2, color = "red"),
+        showlegend = False))
     
     if float(session.get("distance")) > 9000000:
         zoom = 1
@@ -277,10 +276,10 @@ def show_map():
         zoom = 5
     
     fig2d.update_layout(
-        margin={"l": 5, "t": 5, "b": 20, "r": 5},
-        mapbox={
+        margin = {"l": 5, "t": 5, "b": 20, "r": 5},
+        mapbox = {
             "style": "open-street-map",
-            "center": {"lon": ((PL[0]+PL[-1])/2), "lat": ((PB[0]+PB[-1])/2)},
+            "center": {"lon": ((PL[0] + PL[-1])/2), "lat": ((PB[0] + PB[-1])/2)},
             "zoom": zoom})
 
     fig2d_dict = fig2d.to_dict()
@@ -321,17 +320,17 @@ def show_map():
         azimuth_inv = round(float(azimuth_inv))
         
     return render_template("map.html", 
-                           fig=json.dumps(fig_dict), 
-                           fig2d=json.dumps(fig2d_dict), 
-                           distance=distance, 
-                           azimuth=azimuth, 
-                           azimuth_inv=azimuth_inv,
-                           Longitude1=Longitude1,
-                           Latitude1=Latitude1,
-                           Longitude2=Longitude2,
-                           Latitude2=Latitude2,
+                           fig = json.dumps(fig_dict), 
+                           fig2d = json.dumps(fig2d_dict), 
+                           distance = distance, 
+                           azimuth = azimuth, 
+                           azimuth_inv = azimuth_inv,
+                           Longitude1 = Longitude1,
+                           Latitude1 = Latitude1,
+                           Longitude2 = Longitude2,
+                           Latitude2 = Latitude2,
                            name1 = name1,
-                           name2=name2)
+                           name2 = name2)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug = True)

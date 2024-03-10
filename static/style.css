@@ -8,7 +8,7 @@
 
 body {
     font-family: 'Poppins';
-    font-size: 26px;
+    font-size: 24px;
     display: flex;
     height: 100vh;
     justify-content: center;
@@ -17,11 +17,11 @@ body {
 }
 
 .main {
-    width: 1200px;
-    height: 500px;
+    width: 1100px;
+    height: 470px;
     background-color: white;
     padding: 25px 30px;
-    border-radius: 12px;
+    border-radius: 15px;
 }
 
 .main .title {
@@ -71,10 +71,6 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.titleContainer {
     margin-top: 10px;
 }
 
@@ -87,12 +83,17 @@ body {
 .selectBoxContainer {
     position: relative;
     height: 100%;
+    transition: all 0.3s ease-in;
 }
 
-.select-box {
+.selectBoxContainer:hover {
+    transform: scale(102%);
+}
+
+.selectBox {
     height: 100%;
     text-align: center;
-    width: 200px;
+    width: 250px;
     font-family: 'Poppins';
     border: none;
     color: rgb(0, 0, 0);
@@ -101,17 +102,19 @@ body {
     outline: none;
     appearance: none;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 18px;
+    
 }
 
 .chevron-container {
     position: relative;
 }
+
 .chevron-container img {
     position: absolute;
     width: 12px;
     bottom: 15px;
-    right: 5px;
+    right: 15px;
     pointer-events: none;
 }
 
@@ -129,7 +132,7 @@ input[type="text"]{
     justify-content: flex-end;
     min-width: 180px;
     outline: none;
-    width: 200px;
+    width: 250px;
     font-size: 20px;
 }
 input[type="text"]:hover{
@@ -160,7 +163,8 @@ input[type="text"]:not(:placeholder-shown) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 200px;
+    width: 230px;
+    margin-right: 10px;
 }
 
 .button1 div {
@@ -207,7 +211,7 @@ input[type="radio"]:hover + label {
     font-weight: bold;
     border: none;
     padding: 5px 20px;
-    border-radius: 20px;
+    border-radius: 10px;
     transition: all 0.2s ease-in;
     background-color: white;
 }
@@ -243,22 +247,23 @@ input[type="radio"]:hover + label {
         font-size: 30px;
     }
     .selectBoxContainer {
-        width: 40%;
+        width: 50%;
     }
-    .select-box {
+    .selectBox {
         width: 100%;
         font-size: 26px;
     }
     .chevron-container img {
-        right: 20px;
+        right: 30px;
         bottom: 18px;
     }
     input[type="text"] {
-        width: 40%;
+        width: 50%;
         font-size: 20px;
     }
     .button1 {
-        width: 40%;
+        width: 49%;
+        margin: 0;
         font-size: 26px;
     }
     .button1 div {
@@ -274,7 +279,7 @@ input[type="radio"]:hover + label {
         font-size: 26px;
     }
     .error-message {
-        width: 80%;
+        width: 75%;
         font-size: 20px;
     }
 }

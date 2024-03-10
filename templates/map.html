@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mapa</title>
+    <title>Orthodrome</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style_map.css') }}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
@@ -9,18 +9,18 @@
     <div class="container">
         <div class="firstColumnContainer">
             <div class="firstResultContainer">
-                <p class="table">Wyniki</p>
+                <p class="table">Results</p>
                 <div class="firstResultBox">
                     {% if distance is defined %}
-                        <p>Odległość: {{ distance }} km</p>
+                        <p>Orthodrome length: {{ distance }} km</p>
                     {% endif %}
                     
                     {% if azimuth is defined %}
-                        <p>Azymut: {{ azimuth }} &deg;</p>
+                        <p>Forward azimut: {{ azimuth }} &deg;</p>
                     {% endif %}
                 
                     {% if azimuth_inv is defined %}
-                        <p>Azymut odwrotny: {{ azimuth_inv }} &deg;</p>
+                        <p>Reverse azimuth: {{ azimuth_inv }} &deg;</p>
                     {% endif %}
                 </div>
             </div>
@@ -36,7 +36,7 @@
                 const myPlot = document.getElementById('map');
                 Plotly.newPlot(myPlot, fig.data, fig.layout);
             </script>
-            <a class="back" href="http://127.0.0.1:5000">Powrót do strony głównej</a>
+            <a class="back" href="/">Back to main page</a>
         </div>
 
 

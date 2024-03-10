@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Kalkulator</title>
+    <title>Orthodrome</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
@@ -9,15 +9,15 @@
 
 <body>
     <div class="main">
-        <a class="title" href="http://127.0.0.1:5000">Odległość</a>
+        <a class="title" href="/">Orthodrome</a>
         <form action="/calculate" method="post">
             <div class="container">
                 <div class="columnContainer">
                     <div class="titleContainer">
-                        <div class="box-title">Punkt początkowy</div>
+                        <div class="box-title">Starting point</div>
                         <div class="selectBoxContainer">
-                            <select class="select-box" id="cities">
-                                <option value="">Wybierz miasto</option>
+                            <select class="selectBox" id="cities">
+                                <option value="">Select city</option>
                             </select>
                             <div class="chevron-container">
                                 <img src="{{ url_for('static', filename='chevron.png') }}" alt="chevron">
@@ -25,11 +25,11 @@
                         </div>
                     </div>
                     <div class="nameContainer">
-                        <span>Nazwa</span>
+                        <span>Name</span>
                         <input type="text" id="name1" name="name1" placeholder="label" value="{{ name1|default('') }}">
                     </div>
                     <div class="coordinatesContainer">
-                        <span>Szerokość geograficzna</span>
+                        <span>Latitude</span>
                         <input type="text" id="Latitude1" name="Latitude1" placeholder="52.2323&deg;" value="{{ Latitude1|default('') }}">
                         <div class="input-radio">
                             <div class="button1">
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="coordinatesContainer">
-                        <span>Długość geograficzna</span>
+                        <span>Longitude</span>
                         <input type="text" id="Longitude1" name="Longitude1" placeholder="18.2323&deg;" value="{{ Longitude1|default('') }}">
                         <div class="input-radio">
                             <div class="button1">
@@ -63,10 +63,10 @@
                 </div>            
                 <div class="columnContainer">
                     <div class="titleContainer">
-                        <div class="box-title">Punkt końcowy</div>
+                        <div class="box-title">Ending point</div>
                         <div class="selectBoxContainer">
-                            <select class="select-box" id="cities2">
-                                <option value="">Wybierz miasto</option>
+                            <select class="selectBox" id="cities2">
+                                <option value="">Select city</option>
                             </select>
                             <div class="chevron-container">
                                 <img src="{{ url_for('static', filename='chevron.png') }}" alt="chevron">
@@ -74,11 +74,11 @@
                         </div>
                     </div>
                     <div class="nameContainer">
-                        <span>Nazwa</span>
+                        <span>Name</span>
                         <input type="text" id="name2" name="name2" placeholder="label" value="{{ name2|default('') }}">
                     </div>
                     <div class="coordinatesContainer">
-                        <span>Szerokość geograficzna</span>
+                        <span>Latitude</span>
                         <input type="text" id="Latitude2" name="Latitude2" placeholder="52.2323&deg;" value="{{ Latitude2|default('') }}">
                         <div class="input-radio">
                             <div class="button1">
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div class="coordinatesContainer">
-                        <span class="details">Długość geograficzna</span>
+                        <span class="details">Longitude</span>
                         <input type="text" id="Longitude2" name="Longitude2" placeholder="18.2323&deg;" value="{{ Longitude2|default('') }}">
                         <div class="input-radio">
                             <div class="button1">
@@ -112,11 +112,11 @@
                 </div>
             </div>
             <div class="countButton-container">
-                <input type="submit" href="map.html" value="Oblicz">
+                <input type="submit" href="map.html" value="Count">
                 <div class="error-message">
                     {% if error_message %}
                         <p>{{ error_message }}</p>
-                        <p>Podana liczba musi być całkowita lub dziesiętna oddzielona kropką</p>
+                        <p>The entered number must be an integer or decimal separated by a dot</p>
                     {% endif %}
                 </div>
             </div>

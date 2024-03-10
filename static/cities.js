@@ -1,4 +1,4 @@
-const selectBox = document.querySelectorAll(".select-box")
+const selectBoxes = document.querySelectorAll(".selectBox")
 
 const newRowHTML = `
 <option value="bangkok">Bangkok</option>
@@ -9,10 +9,8 @@ const newRowHTML = `
 <option value="moskwa">Moskwa</option>
 <option value="sydney">Sydney</option>
 <option value="tokyo">Tokio</option>
-<option value="warsaw">Warszawa</option>
+<option value="warsaw">Warsaw</option>
 `;
-
-const selectBoxes = document.querySelectorAll(".select-box");
 
 selectBoxes.forEach(selectBox => {
     selectBox.innerHTML += newRowHTML;
@@ -23,7 +21,7 @@ $(document).ready(function(){
     $("#cities").change(function(){
         var selectedCity = $(this).val();
         if (selectedCity == "warsaw") {
-            $("#name1").val("Warszawa");
+            $("#name1").val("Warsaw");
             $("#Latitude1").val("52.2297");
             $("#Longitude1").val("21.0122");
             $("input[name='start-v'][value='dot-start-north']").prop("checked", true);
@@ -84,7 +82,7 @@ $(document).ready(function(){
     $("#cities2").change(function(){
         var selectedCity = $(this).val();
         if (selectedCity == "warsaw") {
-            $("#name2").val("Warszawa");
+            $("#name2").val("Warsaw");
             $("#Latitude2").val("52.2297");
             $("#Longitude2").val("21.0122");
             $("input[name='end-v'][value='dot-end-north']").prop("checked", true);
