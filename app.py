@@ -180,8 +180,14 @@ def calculate():
             Latitude2 = float(Latitude2_user)
             Longitude2 = float(Longitude2_user)
 
-            if abs(Latitude1) > 90 or abs(Latitude2) > 90 or  abs(Longitude1) > 180 or abs(Longitude2) > 180:
-                abort(400, "")
+            try:
+                if abs(Latitude1) > 90 or abs(Latitude2) > 90 or  abs(Longitude1) > 180 or abs(Longitude2) > 180:
+                    abort(400, "")
+            except:
+                error_detail = "Latitude must be lower than 90, longitude must be lower than 180"
+                return render_template("index.html", error_detail = error_detail,
+                                        name1 = name1, name2 = name2, Latitude1 = Latitude1_user, Longitude1 = Longitude1_user,
+                                        Latitude2 = Latitude2_user, Longitude2 = Longitude2_user)
             
             try:
                 sign_start_v = request.form["start-v"]
@@ -204,8 +210,9 @@ def calculate():
         session["name1"] = name1
         session["name2"] = name2
         calculations(sign_start_v, sign_start_h, sign_end_v, sign_end_h, Latitude1, Longitude1, Latitude2, Longitude2)
+
         return redirect(url_for("show_map"))
-        # return render_template("map.html")
+
 
 @app.route("/show_map")
 def show_map():
