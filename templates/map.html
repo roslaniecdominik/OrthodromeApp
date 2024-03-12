@@ -3,8 +3,10 @@
 <head>
     <title>Orthodrome</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style_map.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='earthIcon.png') }}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
+
 <body>
     <div class="container">
         <div class="firstColumnContainer">
@@ -12,15 +14,15 @@
                 <p class="table">Results</p>
                 <div class="firstResultBox">
                     {% if distance is defined %}
-                        <p>Orthodrome length: {{ distance }} km</p>
+                        <p>Orthodrome length:&nbsp; {{ distance }} km</p>
                     {% endif %}
                     
                     {% if azimuth is defined %}
-                        <p>Forward azimut: {{ azimuth }} &deg;</p>
+                        <p>Forward azimut:&nbsp; {{ azimuth }} &deg;</p>
                     {% endif %}
                 
                     {% if azimuth_inv is defined %}
-                        <p>Reverse azimuth: {{ azimuth_inv }} &deg;</p>
+                        <p>Reverse azimuth:&nbsp; {{ azimuth_inv }} &deg;</p>
                     {% endif %}
                 </div>
             </div>
@@ -38,8 +40,6 @@
             </script>
             <a class="back" href="/">Back to main page</a>
         </div>
-
-
 
         <div class="secondColumnContainer">
             <div class="secondResultContainer">

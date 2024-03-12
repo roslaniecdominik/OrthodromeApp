@@ -81,41 +81,78 @@ body {
 }
 
 .selectBoxContainer {
-    position: relative;
     height: 100%;
-    transition: all 0.3s ease-in;
+    width: 230px;
+    margin-right: 10px;
+    text-align: center;
+    cursor: pointer;
 }
 
-.selectBoxContainer:hover {
-    transform: scale(102%);
+.startSelectTitle, .endSelectTitle {
+    border-radius: 10px 10px 0 0;
+    font-size: 20px;
+    width: 100%;
+    background-color: white;
+    position: relative;
+}
+
+.startSelectTitle img, .endSelectTitle img {
+    position: absolute;
+    width: 15px;
+    top: 40%;
+    right: 18%;
+    z-index: 100;
 }
 
 .selectBox {
-    height: 100%;
     text-align: center;
-    width: 250px;
+    width: 230px;
+    margin-right: 10px;
     font-family: 'Poppins';
-    border: none;
-    color: rgb(0, 0, 0);
-    padding: 3px 10px;
-    border-radius: 10px 0 0 10px;
-    outline: none;
-    appearance: none;
+    border-radius: 0 0 0 10px;
     cursor: pointer;
     font-size: 18px;
-    
-}
-
-.chevron-container {
-    position: relative;
-}
-
-.chevron-container img {
     position: absolute;
-    width: 12px;
-    bottom: 15px;
-    right: 15px;
-    pointer-events: none;
+    background-color: white;
+    display: none;
+    height: 200px;
+    overflow-y: scroll;
+    z-index: 99;
+}
+
+@keyframes slideUp {
+    0% {
+      opacity: 0;
+      transform: scale(1, 0.6) translateY(-50%);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0%);
+    }
+  }
+
+.slideUp {
+    animation: slideUp 0.3s ease-in-out;
+}
+
+@keyframes slideDown {
+    0% {
+      opacity: 1;
+      transform: scale(1) translateY(0%);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1, 0.6) translateY(-50%);
+    }
+  }
+
+.slideDown {
+    animation: slideDown 0.3s ease-in-out;
+}
+
+.selectBox option:hover {
+    background-color: rgb(228, 229, 240);
+    border-radius: 8px;
 }
 
 .nameContainer {

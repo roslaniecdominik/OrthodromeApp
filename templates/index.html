@@ -3,8 +3,8 @@
 <head>
     <title>Orthodrome</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='earthIcon.png') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
 </head>
 
 <body>
@@ -16,12 +16,11 @@
                     <div class="titleContainer">
                         <div class="box-title">Starting point</div>
                         <div class="selectBoxContainer">
-                            <select class="selectBox" id="cities">
-                                <option value="">Select city</option>
-                            </select>
-                            <div class="chevron-container">
+                            <div class="startSelectTitle">
+                                <p>Select city</p>
                                 <img src="{{ url_for('static', filename='chevron.png') }}" alt="chevron">
                             </div>
+                            <div  class="selectBox" id="cities"></div>
                         </div>
                     </div>
                     <div class="nameContainer">
@@ -65,12 +64,11 @@
                     <div class="titleContainer">
                         <div class="box-title">Ending point</div>
                         <div class="selectBoxContainer">
-                            <select class="selectBox" id="cities2">
-                                <option value="">Select city</option>
-                            </select>
-                            <div class="chevron-container">
+                            <div class="endSelectTitle">
+                                <p>Select city</p>
                                 <img src="{{ url_for('static', filename='chevron.png') }}" alt="chevron">
                             </div>
+                            <div class="selectBox" id="cities2"></div>
                         </div>
                     </div>
                     <div class="nameContainer">
