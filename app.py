@@ -1,10 +1,160 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session, json, flash
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session, json, flash, abort
 from numpy import radians, arctan, arctan2, tan, sin, cos, sqrt, degrees, isnan
 import plotly.graph_objs as go
+from werkzeug.exceptions import BadRequestKeyError, BadRequest
 
 app = Flask(__name__, template_folder="templates")
 
 app.secret_key = "qwerty"
+
+
+def calculations(sign_start_v, sign_start_h, sign_end_v, sign_end_h, Latitude1, Longitude1, Latitude2, Longitude2):
+    a_GRS80 = 6378137
+    b_GRS80 = 6356752.3141
+
+    e_2 = (a_GRS80**2 - b_GRS80**2)/(a_GRS80**2)
+    f = (a_GRS80 - b_GRS80) / a_GRS80
+
+    if sign_start_v == "dot-start-north":
+        signed_Latitude1 = abs(Latitude1)
+    elif sign_start_v == "dot-start-south":
+        signed_Latitude1 = -abs(Latitude1)
+
+    if sign_start_h == "dot-start-west":
+        signed_Longitude1 = -abs(Longitude1)
+    elif sign_start_h == "dot-start-east":
+        signed_Longitude1 = abs(Longitude1)
+
+    if sign_end_v == "dot-end-south":
+        signed_Latitude2 = -abs(Latitude2)
+    elif sign_end_v == "dot-end-north":
+        signed_Latitude2 = abs(Latitude2)
+
+    if sign_end_h == "dot-end-west":
+        signed_Longitude2 = -abs(Longitude2)
+    elif sign_end_h == "dot-end-east":
+        signed_Longitude2 = abs(Longitude2)
+
+
+    Latitude1 = signed_Latitude1
+    Longitude1 = signed_Longitude1
+    Latitude2 = signed_Latitude2
+    Longitude2 = signed_Longitude2
+
+    coord1 = [Latitude1, Longitude1]
+    coord2 = [Latitude2, Longitude2]
+
+    a = 6378137.0
+    f = 1/298.257223563
+    b = (1-f)*a
+
+    phi_1, L_1 = coord1
+    phi_2, L_2 = coord2                  
+
+    u_1 = arctan((1-f)*tan(radians(phi_1)))
+    u_2 = arctan((1-f)*tan(radians(phi_2)))
+
+    L = radians(L_2-L_1)
+
+    Lambda = L         
+
+    sin_u1 = sin(u_1)
+    cos_u1 = cos(u_1)
+    sin_u2 = sin(u_2)
+    cos_u2 = cos(u_2)
+
+    # --- BEGIN ITERATIONS -----
+    
+    for iters in range(0, 200):
+        iters += 1
+        
+        cos_lambda = cos(Lambda)
+        sin_lambda = sin(Lambda)
+        sin_sigma = sqrt((cos_u2*sin(Lambda))**2 + (cos_u1*sin_u2 - sin_u1*cos_u2*cos_lambda)**2)
+        cos_sigma = sin_u1*sin_u2 + cos_u1*cos_u2*cos_lambda
+        sigma = arctan2(sin_sigma, cos_sigma)
+        sin_alpha = (cos_u1*cos_u2*sin_lambda)/sin_sigma
+        cos_sq_alpha = 1-sin_alpha**2
+        cos2_sigma_m = cos_sigma - ((2*sin_u1*sin_u2)/cos_sq_alpha)
+        C = (f/16)*cos_sq_alpha*(4 + f*(4 - 3*cos_sq_alpha))
+        Lambda_prev = Lambda
+        Lambda = L + (1-C)*f*sin_alpha*(sigma + C*sin_sigma*(cos2_sigma_m + C*cos_sigma*(-1 + 2*cos2_sigma_m**2)))
+
+        diff = abs(Lambda_prev - Lambda)
+        if diff <= 10**-12:
+            break
+        
+    u_sq = cos_sq_alpha*((a**2 - b**2)/b**2)
+    A = 1+(u_sq/16384)*(4096 + u_sq*(-768+u_sq*(320 - 175*u_sq)))
+    B = (u_sq/1024)*(256 + u_sq*(-128 + u_sq*(74 - 47*u_sq)))
+    delta_sig = B*sin_sigma*(cos2_sigma_m + 0.25*B*(cos_sigma*(-1 + 2*cos2_sigma_m**2) - (1/6)*B*cos2_sigma_m*(-3 + 4*sin_sigma**2)*(-3 + 4*cos2_sigma_m**2)))
+
+    distance = b*A*(sigma-delta_sig)                                  
+
+    azimuth = arctan2((cos(u_2) * sin(Lambda)) , 
+                (cos(u_1) * sin(u_2) - sin(u_1) * cos(u_2) * cos(Lambda)))     
+    azimuth_inv = arctan2((cos(u_1) * sin(Lambda)) , 
+                (-1 * sin(u_1) * cos(u_2) + cos(u_1) * sin(u_2) * cos(Lambda)))
+    
+    azimuth = degrees(azimuth)
+    azimuth_inv = degrees(azimuth_inv) + 180
+
+    session["Latitude1"] = Latitude1
+    session["Longitude1"] = Longitude1
+    session["Latitude2"] = Latitude2
+    session["Longitude2"] = Longitude2
+
+
+    # arc coordinates
+    B = radians(Latitude1)
+    L = radians(Longitude1)
+
+    M = (a_GRS80 * (1 - e_2)) / ((sqrt(1- e_2 *(sin(B)**2)))**3)
+    N = a_GRS80 / (sqrt(1-e_2*(sin(B)**2)))
+    
+    
+    if distance < 1000000:
+        ds = 5000
+    elif distance <2000000:
+        ds = 50000
+    elif distance <5000000:
+        ds = 80000
+    else:
+        ds = 100000
+    
+
+    PB = [degrees(B)]
+    PL = [degrees(L)]
+
+    s1 = 0
+    Az = radians(azimuth)
+
+    while s1 < distance:
+        Np = N
+        Mp = M
+        Bp = B
+        dL = ds * sin(Az) / (Np * cos(Bp))
+        L = L + dL
+        dB = ds * cos(Az) / Mp
+        B = B + dB
+        M = (a_GRS80 * (1 - e_2)) / ((sqrt(1-e_2*(sin(B)**2)))**3)
+        N = a_GRS80 / (sqrt(1-e_2*(sin(B)**2)))
+        Az = Az + ds / Np * sin(Az) * tan(Bp)
+        s1 = s1 + ds
+
+        PB.append(degrees(B))
+        PL.append(degrees(L))
+
+    PB = [x.round(4) for x in PB]
+    PL = [x.round(4) for x in PL]
+
+    session["PB"] = PB
+    session["PL"] = PL
+    session["distance"] = distance
+    azimuth += 360
+    session["azimuth"] = azimuth
+    session["azimuth_inv"] = azimuth_inv
+
 
 @app.route("/")
 def index(): 
@@ -13,181 +163,49 @@ def index():
 @app.route("/calculate", methods=["GET", "POST"])
 def calculate():
     
-    a_GRS80 = 6378137
-    b_GRS80 = 6356752.3141
-
-    e_2 = (a_GRS80**2 - b_GRS80**2)/(a_GRS80**2)
-    f = (a_GRS80 - b_GRS80) / a_GRS80
-
-    
     if request.method == "POST":
-
+        error_message = "Please enter correct details"
+        
         try:
-            Latitude1 = float(request.form["Latitude1"])
-            Longitude1 = float(request.form["Longitude1"])
-            Latitude2 = float(request.form["Latitude2"])
-            Longitude2 = float(request.form["Longitude2"])
-
-            sign_start_v = request.form["start-v"]
-            sign_start_h = request.form["start-h"]
-            sign_end_v = request.form["end-v"]
-            sign_end_h = request.form["end-h"]
-
             name1 = request.form["name1"]
             name2 = request.form["name2"]
+      
+            Latitude1_user = request.form["Latitude1"]
+            Longitude1_user = request.form["Longitude1"]
+            Latitude2_user = request.form["Latitude2"]
+            Longitude2_user = request.form["Longitude2"]
 
-            session["name1"] = name1
-            session["name2"] = name2
+            Latitude1 = float(Latitude1_user)
+            Longitude1 = float(Longitude1_user)
+            Latitude2 = float(Latitude2_user)
+            Longitude2 = float(Longitude2_user)
 
-            if sign_start_v == "dot-start-north":
-                signed_Latitude1 = abs(Latitude1)
-            elif sign_start_v == "dot-start-south":
-                signed_Latitude1 = -abs(Latitude1)
-
-            if sign_start_h == "dot-start-west":
-                signed_Longitude1 = -abs(Longitude1)
-            elif sign_start_h == "dot-start-east":
-                signed_Longitude1 = abs(Longitude1)
-
-            if sign_end_v == "dot-end-south":
-                signed_Latitude2 = -abs(Latitude2)
-            elif sign_end_v == "dot-end-north":
-                signed_Latitude2 = abs(Latitude2)
-
-            if sign_end_h == "dot-end-west":
-                signed_Longitude2 = -abs(Longitude2)
-            elif sign_end_h == "dot-end-east":
-                signed_Longitude2 = abs(Longitude2)
-
-        
-            Latitude1 = signed_Latitude1
-            Longitude1 = signed_Longitude1
-            Latitude2 = signed_Latitude2
-            Longitude2 = signed_Longitude2
-
-
-            coord1 = [Latitude1, Longitude1]
-            coord2 = [Latitude2, Longitude2]
-
-            a = 6378137.0
-            f = 1/298.257223563
-            b = (1-f)*a
-
-            phi_1, L_1 = coord1
-            phi_2, L_2 = coord2                  
-
-            u_1 = arctan((1-f)*tan(radians(phi_1)))
-            u_2 = arctan((1-f)*tan(radians(phi_2)))
-
-            L = radians(L_2-L_1)
-
-            Lambda = L         
-
-            sin_u1 = sin(u_1)
-            cos_u1 = cos(u_1)
-            sin_u2 = sin(u_2)
-            cos_u2 = cos(u_2)
-
-            # --- BEGIN ITERATIONS -----
+            if abs(Latitude1) > 90 or abs(Latitude2) > 90 or  abs(Longitude1) > 180 or abs(Longitude2) > 180:
+                abort(400, "")
             
-            for iters in range(0, 200):
-                iters += 1
-                
-                cos_lambda = cos(Lambda)
-                sin_lambda = sin(Lambda)
-                sin_sigma = sqrt((cos_u2*sin(Lambda))**2 + (cos_u1*sin_u2 - sin_u1*cos_u2*cos_lambda)**2)
-                cos_sigma = sin_u1*sin_u2 + cos_u1*cos_u2*cos_lambda
-                sigma = arctan2(sin_sigma, cos_sigma)
-                sin_alpha = (cos_u1*cos_u2*sin_lambda)/sin_sigma
-                cos_sq_alpha = 1-sin_alpha**2
-                cos2_sigma_m = cos_sigma - ((2*sin_u1*sin_u2)/cos_sq_alpha)
-                C = (f/16)*cos_sq_alpha*(4 + f*(4 - 3*cos_sq_alpha))
-                Lambda_prev = Lambda
-                Lambda = L + (1-C)*f*sin_alpha*(sigma + C*sin_sigma*(cos2_sigma_m + C*cos_sigma*(-1 + 2*cos2_sigma_m**2)))
+            try:
+                sign_start_v = request.form["start-v"]
+                sign_start_h = request.form["start-h"]
+                sign_end_v = request.form["end-v"]
+                sign_end_h = request.form["end-h"]
+            except:
+                error_detail = "mark the directions"
+                return render_template("index.html", error_detail = error_detail,
+                                        name1 = name1, name2 = name2, Latitude1 = Latitude1_user, Longitude1 = Longitude1_user,
+                                        Latitude2 = Latitude2_user, Longitude2 = Longitude2_user)
 
-                diff = abs(Lambda_prev - Lambda)
-                if diff <= 10**-12:
-                    break
-                
-            u_sq = cos_sq_alpha*((a**2 - b**2)/b**2)
-            A = 1+(u_sq/16384)*(4096 + u_sq*(-768+u_sq*(320 - 175*u_sq)))
-            B = (u_sq/1024)*(256 + u_sq*(-128 + u_sq*(74 - 47*u_sq)))
-            delta_sig = B*sin_sigma*(cos2_sigma_m + 0.25*B*(cos_sigma*(-1 + 2*cos2_sigma_m**2) - (1/6)*B*cos2_sigma_m*(-3 + 4*sin_sigma**2)*(-3 + 4*cos2_sigma_m**2)))
+        except:
+            error_detail = "The entered number must be an integer or decimal separated by a dot"
 
-            distance = b*A*(sigma-delta_sig)                                  
+            return render_template("index.html", error_message = error_message, error_detail = error_detail,
+                                   name1 = name1, name2 = name2, Latitude1 = Latitude1_user, Longitude1 = Longitude1_user,
+                                   Latitude2 = Latitude2_user, Longitude2 = Longitude2_user)
 
-            azimuth = arctan2((cos(u_2) * sin(Lambda)) , 
-                        (cos(u_1) * sin(u_2) - sin(u_1) * cos(u_2) * cos(Lambda)))     
-            azimuth_inv = arctan2((cos(u_1) * sin(Lambda)) , 
-                        (-1 * sin(u_1) * cos(u_2) + cos(u_1) * sin(u_2) * cos(Lambda)))
-            
-            azimuth = degrees(azimuth)
-            azimuth_inv = degrees(azimuth_inv) + 180
-
-            session["Latitude1"] = Latitude1
-            session["Longitude1"] = Longitude1
-            session["Latitude2"] = Latitude2
-            session["Longitude2"] = Longitude2
-
-
-            # arc coordinates
-            B = radians(Latitude1)
-            L = radians(Longitude1)
-
-            M = (a_GRS80 * (1 - e_2)) / ((sqrt(1- e_2 *(sin(B)**2)))**3)
-            N = a_GRS80 / (sqrt(1-e_2*(sin(B)**2)))
-           
-            
-            if distance < 1000000:
-                ds = 5000
-            elif distance <2000000:
-                ds = 50000
-            elif distance <5000000:
-                ds = 80000
-            else:
-                ds = 100000
-            
-
-            PB = [degrees(B)]
-            PL = [degrees(L)]
-
-            s1 = 0
-            Az = radians(azimuth)
-
-            while s1 < distance:
-                Np = N
-                Mp = M
-                Bp = B
-                dL = ds * sin(Az) / (Np * cos(Bp))
-                L = L + dL
-                dB = ds * cos(Az) / Mp
-                B = B + dB
-                M = (a_GRS80 * (1 - e_2)) / ((sqrt(1-e_2*(sin(B)**2)))**3)
-                N = a_GRS80 / (sqrt(1-e_2*(sin(B)**2)))
-                Az = Az + ds / Np * sin(Az) * tan(Bp)
-                s1 = s1 + ds
-
-                PB.append(degrees(B))
-                PL.append(degrees(L))
-
-            PB = [x.round(4) for x in PB]
-            PL = [x.round(4) for x in PL]
-
-            session["PB"] = PB
-            session["PL"] = PL
-            session["distance"] = distance
-            azimuth += 360
-            session["azimuth"] = azimuth
-            session["azimuth_inv"] = azimuth_inv
-
-            return redirect(url_for("show_map"))
-
-           
-        except ValueError:
-            error_message="Please enter correct details"
-            return render_template("index.html", error_message = error_message)
-        
-    return render_template("map.html")
+        session["name1"] = name1
+        session["name2"] = name2
+        calculations(sign_start_v, sign_start_h, sign_end_v, sign_end_h, Latitude1, Longitude1, Latitude2, Longitude2)
+        return redirect(url_for("show_map"))
+        # return render_template("map.html")
 
 @app.route("/show_map")
 def show_map():

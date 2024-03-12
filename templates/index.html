@@ -97,11 +97,11 @@
                         <div class="input-radio">
                             <div class="button1">
                                 <div>
-                                    <input type="radio" name="end-h" id="dot-end-east" value="dot-end-east" {% if end_h == 'East' %} checked {% endif %}>
+                                    <input type="radio" name="end-h" id="dot-end-east" value="dot-end-east" {% if end_h == 'dot-end-east' %} checked {% endif %}>
                                     <label for="dot-end-east">East</label>
                                 </div>
                                 <div>
-                                    <input type="radio" name="end-h" id="dot-end-west" value="dot-end-west" {% if end_h == 'West' %} checked {% endif %}>
+                                    <input type="radio" name="end-h" id="dot-end-west" value="dot-end-west" {% if end_h == 'dot-end-west' %} checked {% endif %}>
                                     <label for="dot-end-west">West</label>
                                 </div>
                             </div>
@@ -114,7 +114,9 @@
                 <div class="error-message">
                     {% if error_message %}
                         <p>{{ error_message }}</p>
-                        <p>The entered number must be an integer or decimal separated by a dot</p>
+                    {% endif %}
+                    {% if error_detail %}
+                        <p>{{ error_detail }}</p>
                     {% endif %}
                 </div>
             </div>
