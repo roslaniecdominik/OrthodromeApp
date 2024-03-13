@@ -7,7 +7,6 @@ app = Flask(__name__, template_folder="templates")
 
 app.secret_key = "qwerty"
 
-
 def calculations(sign_start_v, sign_start_h, sign_end_v, sign_end_h, Latitude1, Longitude1, Latitude2, Longitude2):
     a_GRS80 = 6378137
     b_GRS80 = 6356752.3141
@@ -156,6 +155,28 @@ def calculations(sign_start_v, sign_start_h, sign_end_v, sign_end_h, Latitude1, 
     session["azimuth_inv"] = azimuth_inv
 
 
+def radio_errros(form, keys):
+    sign_start_v = None
+    sign_start_h = None
+    sign_end_v = None
+    sign_end_h = None
+
+    for key in keys:
+        try:
+            if key == "start-v":
+                sign_start_v = form[key]
+            elif key == "start-h":
+                sign_start_h = form[key]
+            elif key == "end-v":
+                sign_end_v = form[key]
+            elif key == "end-h":
+                sign_end_h = form[key]
+        except KeyError:
+            pass
+    
+    error_detail = "Mark the directions"
+    return sign_start_v, sign_start_h, sign_end_v, sign_end_h, error_detail
+
 @app.route("/")
 def index(): 
     return render_template("index.html")
@@ -165,7 +186,8 @@ def calculate():
     
     if request.method == "POST":
         error_message = "Please enter correct details"
-        
+        keys = ["start-v", "start-h", "end-v", "end-h"]
+
         try:
             name1 = request.form["name1"]
             name2 = request.form["name2"]
@@ -184,31 +206,37 @@ def calculate():
                 if abs(Latitude1) > 90 or abs(Latitude2) > 90 or  abs(Longitude1) > 180 or abs(Longitude2) > 180:
                     abort(400, "")
             except:
+                sign_start_v, sign_start_h, sign_end_v, sign_end_h, error_detail = radio_errros(request.form, keys)
+
                 error_detail = "Latitude must be lower than 90, longitude must be lower than 180"
-                return render_template("index.html", error_detail = error_detail,
-                                        name1 = name1, name2 = name2, Latitude1 = Latitude1_user, Longitude1 = Longitude1_user,
-                                        Latitude2 = Latitude2_user, Longitude2 = Longitude2_user)
-            
-            try:
-                sign_start_v = request.form["start-v"]
-                sign_start_h = request.form["start-h"]
-                sign_end_v = request.form["end-v"]
-                sign_end_h = request.form["end-h"]
-            except:
-                error_detail = "mark the directions"
-                return render_template("index.html", error_detail = error_detail,
-                                        name1 = name1, name2 = name2, Latitude1 = Latitude1_user, Longitude1 = Longitude1_user,
-                                        Latitude2 = Latitude2_user, Longitude2 = Longitude2_user)
+                
+                return render_template("index.html", error_message = error_message, error_detail = error_detail, name1 = name1, name2 = name2, 
+                            Latitude1 = Latitude1_user, Longitude1 = Longitude1_user, start_v = sign_start_v, start_h = sign_start_h,
+                            Latitude2 = Latitude2_user, Longitude2 = Longitude2_user, end_v = sign_end_v, end_h = sign_end_h)
 
         except:
+            sign_start_v, sign_start_h, sign_end_v, sign_end_h, error_detail = radio_errros(request.form, keys)
+            
             error_detail = "The entered number must be an integer or decimal separated by a dot"
+            return render_template("index.html", error_message = error_message, error_detail = error_detail, name1 = name1, name2 = name2, 
+                                   Latitude1 = Latitude1_user, Longitude1 = Longitude1_user, start_v = sign_start_v, start_h = sign_start_h,
+                                   Latitude2 = Latitude2_user, Longitude2 = Longitude2_user, end_v = sign_end_v, end_h = sign_end_h)
 
-            return render_template("index.html", error_message = error_message, error_detail = error_detail,
-                                   name1 = name1, name2 = name2, Latitude1 = Latitude1_user, Longitude1 = Longitude1_user,
-                                   Latitude2 = Latitude2_user, Longitude2 = Longitude2_user)
+        try:
+            sign_start_v = request.form["start-v"]
+            sign_start_h = request.form["start-h"]
+            sign_end_v = request.form["end-v"]
+            sign_end_h = request.form["end-h"] 
+        except:
+            sign_start_v, sign_start_h, sign_end_v, sign_end_h, error_detail = radio_errros(request.form, keys)
 
+            return render_template("index.html", error_message = error_message, error_detail = error_detail, name1 = name1, name2 = name2, 
+                                   Latitude1 = Latitude1_user, Longitude1 = Longitude1_user, start_v = sign_start_v, start_h = sign_start_h,
+                                   Latitude2 = Latitude2_user, Longitude2 = Longitude2_user, end_v = sign_end_v, end_h = sign_end_h)
+        
         session["name1"] = name1
         session["name2"] = name2
+
         calculations(sign_start_v, sign_start_h, sign_end_v, sign_end_h, Latitude1, Longitude1, Latitude2, Longitude2)
 
         return redirect(url_for("show_map"))

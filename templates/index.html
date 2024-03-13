@@ -112,10 +112,8 @@
             <div class="countButton-container">
                 <input type="submit" href="map.html" value="Count">
                 <div class="error-message">
-                    {% if error_message %}
+                    {% if error_message or error_detail %}
                         <p>{{ error_message }}</p>
-                    {% endif %}
-                    {% if error_detail %}
                         <p>{{ error_detail }}</p>
                     {% endif %}
                 </div>

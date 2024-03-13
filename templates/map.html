@@ -11,8 +11,43 @@
     <div class="container">
         <div class="firstColumnContainer">
             <div class="firstResultContainer">
-                <p class="table">Results</p>
                 <div class="firstResultBox">
+                    {% if name1 is defined %}
+                        <p class="table">{{ name1 }}</p>
+                    {% endif %}
+                    <div class="coordinates">
+                        {% if Latitude1 is defined %}
+                            <p>{{ Latitude1 }}</p>
+                            <p>{{ Longitude1 }}</p>
+                        {% endif %}
+                    </div>  
+                </div>
+                <div class="firstResultBox">
+                    {% if name2 is defined %}
+                        <p class="table">{{ name2 }}</p>
+                    {% endif %}
+                    <div class="coordinates">
+                        {% if Latitude2 is defined %}
+                            <p>{{ Latitude2 }}</p>
+                            <p>{{ Longitude2 }}</p>
+                        {% endif %}
+                    </div>  
+                </div>
+            </div>
+            <div id="map2D"></div>
+            <script>
+                const fig2d = JSON.parse('{{ fig2d | safe }}');
+                const latitudes2D = fig2d['data'][0]['lat'];
+                const longitudes2D = fig2d['data'][0]['lon'];
+                
+                const myPlot2D = document.getElementById('map2D');
+                Plotly.newPlot(myPlot2D, fig2d.data, fig2d.layout);
+            </script>
+        </div>
+        <div class="secondColumnContainer">
+            <div class="secondResultContainer">
+                <p class="table">Results</p>
+                <div class="secondResultBox">
                     {% if distance is defined %}
                         <p>Orthodrome length:&nbsp; {{ distance }} km</p>
                     {% endif %}
@@ -41,41 +76,6 @@
             <a class="back" href="/">Back to main page</a>
         </div>
 
-        <div class="secondColumnContainer">
-            <div class="secondResultContainer">
-                <div class="secondResultBox">
-                    {% if name1 is defined %}
-                        <p class="table">{{ name1 }}</p>
-                    {% endif %}
-                    <div class="coordinates">
-                        {% if Latitude1 is defined %}
-                            <p>{{ Latitude1 }}</p>
-                            <p>{{ Longitude1 }}</p>
-                        {% endif %}
-                    </div>  
-                </div>
-                <div class="secondResultBox">
-                    {% if name2 is defined %}
-                        <p class="table">{{ name2 }}</p>
-                    {% endif %}
-                    <div class="coordinates">
-                        {% if Latitude2 is defined %}
-                            <p>{{ Latitude2 }}</p>
-                            <p>{{ Longitude2 }}</p>
-                        {% endif %}
-                    </div>  
-                </div>
-            </div>
-            <div id="map2D"></div>
-            <script>
-                const fig2d = JSON.parse('{{ fig2d | safe }}');
-                const latitudes2D = fig2d['data'][0]['lat'];
-                const longitudes2D = fig2d['data'][0]['lon'];
-                
-                const myPlot2D = document.getElementById('map2D');
-                Plotly.newPlot(myPlot2D, fig2d.data, fig2d.layout);
-            </script>
-        </div>
     </div>
 </body>
 </html>

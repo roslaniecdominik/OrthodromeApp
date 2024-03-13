@@ -36,49 +36,90 @@ body {
 .container {
     margin-top: 60px 0;
     width: 98%;
-    min-height: 100vh;
-    max-height: max-content;
+    height: 100vh;
     display: flex;
     justify-content: center;
     gap: 30px;
     flex-wrap: wrap;
-    padding: 30px 0;
+    padding: 20px 0;
     align-items: stretch;
 }
 
 .firstColumnContainer {
+    box-shadow: 0px 0px 16px -8px rgba(66, 68, 90, 1);
     background-color: white;
-    /* min-width: 350px; */
-    width: 35%;
-    /* max-height: 90%; */
+    width: 57%;
+    padding: 15px;
+    border-radius: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.firstResultContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    padding: 20px;
+}
+
+.firstResultBox {
+    width: auto;
+    align-items: center;
+    width: 58%;
+    display: flex;
+    flex-direction: column;
+}
+
+.firstResultBox div {
+    display: flex;
+}
+
+#map2D {
+    width: 90%;
+    min-height: 450px;
+    height: 90%;
+    margin: 15px auto;
+    display: flex;
+    justify-content: center;
+}
+.mapboxgl-map {
+    box-shadow: 0px 0px 16px -8px rgba(66, 68, 90, 1);
+    border-radius: 12px;
+}
+.secondColumnContainer {
+    box-shadow: 0px 0px 16px -8px rgba(66, 68, 90, 1);
+    background-color: white;
+    width: 38%;
     padding: 15px;
     border-radius: 15px;
-    min-height: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.firstResultContainer{
+.secondResultContainer {
     width: 100%;
-    padding: 25px 25px 0 25px;
+    padding: 5px 15px 0 15px;
     height: auto;
 }
 
-.firstResultBox {
+.secondResultBox {
     margin-left: 25px;
     font-size: 24px;
 }
 
-.firstResultBox p {
+.secondResultBox p {
     margin: 5px 0;
 }
 
 #map {
-    width: 90%;
-    height: auto;
-    margin: 35px auto;
+    width: 96%;
+    height: 57%;
+    margin: 5px auto;
     display: flex;
     justify-content: center;
 }
@@ -86,7 +127,7 @@ body {
 .back {
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    margin-top: 20px;
     color: black;
     text-decoration: none;
     font-size: 22px;
@@ -142,53 +183,21 @@ body {
     gap: 15px;
 }
 
-.secondColumnContainer {
-    background-color: white;
-    /* min-width: 600px; */
-    width: 60%;
-    padding: 15px;
-    border-radius: 10px;
-    height: auto;
-    display: flex;
-    /* justify-content: center; */
-    /* align-items: flex-start; */
-    flex-direction: column;
-}
-
-.secondResultContainer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 20px;
-}
-
-.secondResultBox {
-    width: auto;
-    align-items: center;
-    width: 58%;
-    display: flex;
-    flex-direction: column;
-}
-
-.secondResultBox div {
-    display: flex;
-}
-
-#map2D {
-    width: 90%;
-    min-height: 450px;
-    height: 80%;
-    margin: 15px auto;
-    display: flex;
-    justify-content: center;
-}
-
 @media screen and (max-width: 1400px) {
     body {
         align-items: baseline;
     }
-    .firstColumnContainer, .secondColumnContainer {
+    .secondColumnContainer, .firstColumnContainer {
         width: 100%;
+        height: 75%;
+    }
+    .secondResultBox, .coordinates {
+        font-size: 36px;
+    }
+    .table {
+        font-size: 50px;
+    }
+    .back {
+        font-size: 40px;
     }
 }
