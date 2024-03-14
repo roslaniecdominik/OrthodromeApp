@@ -197,6 +197,15 @@ def calculate():
             Latitude2_user = request.form["Latitude2"]
             Longitude2_user = request.form["Longitude2"]
 
+            if Latitude1_user.find(",") > 0:
+                Latitude1_user = Latitude1_user.replace(",", ".")
+            if Longitude1_user.find(",") > 0:
+                Longitude1_user = Longitude1_user.replace(",", ".")
+            if Latitude2_user.find(",") > 0:
+                Latitude2_user = Latitude2_user.replace(",", ".")
+            if Longitude2_user.find(",") > 0:
+                Longitude2_user = Longitude2_user.replace(",", ".")
+            
             Latitude1 = float(Latitude1_user)
             Longitude1 = float(Longitude1_user)
             Latitude2 = float(Latitude2_user)
@@ -217,7 +226,7 @@ def calculate():
         except:
             sign_start_v, sign_start_h, sign_end_v, sign_end_h, error_detail = radio_errros(request.form, keys)
             
-            error_detail = "The entered number must be an integer or decimal separated by a dot"
+            error_detail = "The entered number must be an integer or decimal separated by a dot or a comma"
             return render_template("index.html", error_message = error_message, error_detail = error_detail, name1 = name1, name2 = name2, 
                                    Latitude1 = Latitude1_user, Longitude1 = Longitude1_user, start_v = sign_start_v, start_h = sign_start_h,
                                    Latitude2 = Latitude2_user, Longitude2 = Longitude2_user, end_v = sign_end_v, end_h = sign_end_h)

@@ -1,6 +1,10 @@
+const body = document.querySelector("body") 
 const selectBoxes = document.querySelectorAll(".selectBox");
 const startSelectTitle = document.querySelector(".startSelectTitle");
 const endSelectTitle = document.querySelector(".endSelectTitle");
+const blur = document.querySelector(".blur")
+
+let display;
 
 function selectBoxOptios(selectBoxes) {
     const newRowHTML = `
@@ -20,8 +24,9 @@ function selectBoxOptios(selectBoxes) {
     });
 };
 
-function openSelectBox (selectBoxes, selectTitle, display) {
+function openSelectBox (selectBoxes, selectTitle, display, blur) {
     if (display === "none") {
+        blur.style.display = "block"
         selectBoxes.style.display = "block"
         selectBoxes.style.boxShadow = "0px 20px 41px -19px rgba(66, 68, 90, 1)"
         selectTitle.style.boxShadow = "0px -1px 10px -5px rgba(66, 68, 90, 1)"
@@ -29,7 +34,9 @@ function openSelectBox (selectBoxes, selectTitle, display) {
         setTimeout(() => {
             selectBoxes.classList.remove("slideUp")
         }, 300);
+
     } else {
+        blur.style.display = "none"
         selectBoxes.style.boxShadow = ""
         selectTitle.style.boxShadow = ""
         selectBoxes.classList.add("slideDown")
@@ -45,7 +52,7 @@ function automaticReplenishment (selectBox) {
 
     options.forEach(option => {
         option.addEventListener("click", function() {
-            const display = window.getComputedStyle(selectBox).getPropertyValue("display");
+            display = window.getComputedStyle(selectBox).getPropertyValue("display");
             const selectedCity = option.value;
 
             if (selectBox.id ==="cities2") {
@@ -104,7 +111,7 @@ function automaticReplenishment (selectBox) {
                     $("input[name='end-v'][value='dot-end-south']").prop("checked", true);
                     $("input[name='end-h'][value='dot-end-west']").prop("checked", true);
                 };
-                openSelectBox(selectBox, endSelectTitle, display);
+                openSelectBox(selectBox, endSelectTitle, display, blur);
 
             } else if (selectBox.id === "cities") {
                 if (selectedCity == "warsaw") {
@@ -162,7 +169,7 @@ function automaticReplenishment (selectBox) {
                     $("input[name='start-v'][value='dot-start-south']").prop("checked", true);
                     $("input[name='start-h'][value='dot-start-west']").prop("checked", true);
                 };
-                openSelectBox(selectBox, startSelectTitle, display);
+                openSelectBox(selectBox, startSelectTitle, display, blur);
             };
         });
     });
@@ -173,11 +180,31 @@ automaticReplenishment(selectBoxes[0]);
 automaticReplenishment(selectBoxes[1]);
 
 startSelectTitle.addEventListener("click", function() {
-    const display = window.getComputedStyle(selectBoxes[0]).getPropertyValue("display");
-    openSelectBox(selectBoxes[0], startSelectTitle, display);
+    display = window.getComputedStyle(selectBoxes[1]).getPropertyValue("display");
+    if (display == "block") {
+        openSelectBox(selectBoxes[1], startSelectTitle, display, blur);
+    }
+    display = window.getComputedStyle(selectBoxes[0]).getPropertyValue("display");
+    openSelectBox(selectBoxes[0], startSelectTitle, display, blur);
 });
 
 endSelectTitle.addEventListener("click", function() {
-    const display = window.getComputedStyle(selectBoxes[1]).getPropertyValue("display");
-    openSelectBox(selectBoxes[1], endSelectTitle, display);
+    display = window.getComputedStyle(selectBoxes[0]).getPropertyValue("display");
+    if (display == "block") {
+        openSelectBox(selectBoxes[0], startSelectTitle, display, blur);
+    }
+    display = window.getComputedStyle(selectBoxes[1]).getPropertyValue("display");
+    openSelectBox(selectBoxes[1], endSelectTitle, display, blur);
 });
+
+blur.addEventListener("click", function() {    
+    selectBoxes.forEach(selectBox => {
+        if (selectBox.id === "cities") {
+            display = "block";
+            openSelectBox(selectBox, startSelectTitle, display, blur);
+        } else if (selectBox.id === "cities2") {
+            display = "block";
+            openSelectBox(selectBox, endSelectTitle, display, blur);
+        }
+      }); 
+})
