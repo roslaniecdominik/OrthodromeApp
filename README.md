@@ -13,9 +13,5 @@ The application calculates the distance between points on an ellipsoid and visua
 
 
 ![Zrzut ekranu 2024-03-19 191935](https://github.com/roslaniecdominik/OrthodromeApp/assets/160874606/24bf7066-2995-41f8-b40b-cdcb73933dce)
-<<<<<<< HEAD
-![Zrzut ekranu 2024-03-13 223828](https://github.com/roslaniecdominik/OrthodromeApp/assets/160874606/2038ba33-7ab5-46f2-93a6-d07bc9ea93ec)
-=======
-![Zrzut ekranu 2024-03-13 223828](https://github.com/roslaniecdominik/OrthodromeApp/assets/160874606/2038ba33-7ab5-46f2-93a6-d07bc9ea93ec)
 
->>>>>>> 6da640d08ea153fb933a47f429fe3c57cf063e21
+![Zrzut ekranu 2024-03-13 223828](https://github.com/roslaniecdominik/OrthodromeApp/assets/160874606/2038ba33-7ab5-46f2-93a6-d07bc9ea93ec)
