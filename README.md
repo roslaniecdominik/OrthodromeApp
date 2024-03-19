@@ -12,5 +12,6 @@ User can select a city or enter any coordinates.
 The application calculates the distance between points on an ellipsoid and visualizes the results on a flat map and on a 3D earth model
 
 
-![Zrzut ekranu 2024-03-13 223903](https://github.com/roslaniecdominik/OrthodromeApp/assets/160874606/13d9b100-5a94-4b49-8682-c6a52de05b59)
+![Zrzut ekranu 2024-03-19 191935](https://github.com/roslaniecdominik/OrthodromeApp/assets/160874606/24bf7066-2995-41f8-b40b-cdcb73933dce)
 ![Zrzut ekranu 2024-03-13 223828](https://github.com/roslaniecdominik/OrthodromeApp/assets/160874606/2038ba33-7ab5-46f2-93a6-d07bc9ea93ec)
+
