@@ -4,6 +4,13 @@ const startSelectTitle = document.querySelector(".startSelectTitle");
 const endSelectTitle = document.querySelector(".endSelectTitle");
 const blur = document.querySelector(".blur")
 
+const main = document.querySelector(".main")
+const definitionContainer = document.querySelector(".definitionContainer")
+const whatIsOrthodrome = document.querySelector(".What.is.orthodrome")
+const backButton = document.querySelector(".backButton")
+
+definitionContainer.style.height = main.offsetHeight + "px"
+
 let display;
 
 function selectBoxOptios(selectBoxes) {
@@ -174,6 +181,30 @@ function automaticReplenishment (selectBox) {
         });
     });
 };
+
+whatIsOrthodrome.addEventListener("click", function() {
+    definitionContainer.classList.remove("slideDown")
+    definitionContainer.classList.add("slideUp")
+    definitionContainer.style.display = "flex"
+    whatIsOrthodrome.classList.remove("slideUp")
+    whatIsOrthodrome.classList.add("slideDown")
+    setTimeout(() => {
+        whatIsOrthodrome.innerHTML = "&nbsp;"
+    },250)
+})
+
+backButton.addEventListener("click", function(){
+    definitionContainer.classList.remove("slideUp")
+    definitionContainer.classList.add("slideDown")
+    
+    setTimeout(() => {
+        definitionContainer.style.display = "none"
+    },250)
+    
+    whatIsOrthodrome.classList.remove("slideDown")
+    whatIsOrthodrome.classList.add("slideUp")
+    whatIsOrthodrome.innerHTML = "What is orthodrome?"
+})
 
 selectBoxOptios(selectBoxes);
 automaticReplenishment(selectBoxes[0]);

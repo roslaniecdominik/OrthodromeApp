@@ -10,6 +10,7 @@
 <body>
     <div class="main">
         <a class="title" href="/">Orthodrome</a>
+        <!-- <div class="answer"></div> -->
         <form action="/calculate" method="post">
             <div class="container">
                 <div class="columnContainer">
@@ -118,9 +119,22 @@
                     {% endif %}
                 </div>
             </div>
+            
         </form>
+        
         <div class="blur"></div>
     </div>
+    <div class="definitionContainer">
+        <img src="{{ url_for('static', filename='earth.png') }}" alt="earth">
+        <div class="definition">
+            <p class="titleDefinition">Orthodrome</p>
+            <p class="textDefinition">The shortest path between two points on the surface of a sphere. The orthodrome is always part of a great circle, i.e. a circle whose plane intersects the center of the Earth. This makes it the shortest distance</p>
+            <div class="backButton">
+                <button>back</button>
+            </div>
+        </div>
+    </div>
+    <p class="What is orthodrome">What is orthodrome?</p>
 <script src="{{ url_for('static', filename='cities.js') }}"></script>
 </body>
 </html>

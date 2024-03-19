@@ -1,5 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
+@keyframes slideUp {
+    0% {
+      opacity: 0;
+      transform: scale(1, 0.6) translateY(-50%);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0%);
+    }
+}
+
+@keyframes slideDown {
+    0% {
+      opacity: 1;
+      transform: scale(1) translateY(0%);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1, 0.6) translateY(-50%);
+    }
+}
+
+@keyframes slideRight {
+    0% {
+        opacity: 0;
+        transform: scale(1, 0.6) translateX(20%);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateX(0%);
+      }
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -14,6 +47,7 @@ body {
     justify-content: center;
     align-items: center;
     background: linear-gradient(45deg, rgb(138, 228, 183), rgb(170, 196, 241));
+    flex-direction: column;
 }
 
 .main {
@@ -132,31 +166,13 @@ body {
     display: none;
 }
 
-@keyframes slideUp {
-    0% {
-      opacity: 0;
-      transform: scale(1, 0.6) translateY(-50%);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1) translateY(0%);
-    }
-  }
+
 
 .slideUp {
     animation: slideUp 0.3s ease-in-out;
 }
 
-@keyframes slideDown {
-    0% {
-      opacity: 1;
-      transform: scale(1) translateY(0%);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(1, 0.6) translateY(-50%);
-    }
-  }
+
 
 .slideDown {
     animation: slideDown 0.3s ease-in-out;
@@ -243,11 +259,11 @@ input[type="radio"]:hover + label {
 .countButton-container {
     margin: 5px;
     height: 60px;
-    width: 80%;
+    width: 99%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    flex-wrap: wrap;
+    flex-direction: row;
 }
 
 .countButton-container input {
@@ -275,6 +291,92 @@ input[type="radio"]:hover + label {
     align-items: center;
     color: red;
     font-size: 20px;
+    animation: slideRight 0.3s ease-in-out;
+}
+
+.What.is.orthodrome {
+    margin-top: 15px;
+    color: rgb(80, 79, 79);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.What.is.orthodrome:hover {
+    transform: scale(103%);
+}
+
+.definitionContainer {
+    box-shadow: 0px 0px 16px -8px rgba(66, 68, 90, 1);
+    width: 1100px;
+    /* height: 470px; */
+    background-color: white;
+    padding: 25px 30px;
+    border-radius: 15px;
+    position: absolute;
+    z-index: 100;
+    margin-bottom: 52px;
+    display: none;
+    gap: 10px;
+    
+}
+
+
+.definitionContainer img {
+    width: auto;
+    height: 400px;
+    margin: auto;
+}
+
+.definition {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.titleDefinition {
+    font-size: 50px;
+    font-weight: bold;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.textDefinition {
+    font-size: 26px;
+    padding: 15px;
+}
+
+.backButton {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.backButton button {
+    font-size: 26px;
+    margin-right: 50px;
+    background: none;
+    border: none;
+    position: relative;
+    font: inherit;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+.backButton button::after {
+    content: "";
+    width: 20px;
+    height: 3px;
+    background: linear-gradient(45deg, rgb(138, 228, 183), rgb(170, 196, 241));
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.backButton button:hover{
+    transform: scale(103%);
 }
 
 @media screen and (max-width: 1200px) {
@@ -331,4 +433,16 @@ input[type="radio"]:hover + label {
         width: 75%;
         font-size: 20px;
     }
+    .definitionContainer {
+        width: 90%;
+        flex-direction: column;
+    }
+    .definitionContainer img {
+        height: 500px;
+    }
+    .definition {
+        width: 95%;
+        margin: auto;
+    }
+
 }
