@@ -33,6 +33,15 @@ body {
     background: linear-gradient(45deg, rgb(138, 228, 183), rgb(170, 196, 241));
 }
 
+#preLoader {
+    background: rgb(255, 255, 255) url(preloader.gif) no-repeat center center;
+    /* background-size: 25%; */
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    z-index: 100;
+}
+
 .container {
     margin-top: 60px 0;
     width: 98%;
@@ -55,6 +64,7 @@ body {
     display: flex;
     flex-direction: column;
     animation: slideRight 0.3s ease-in-out;
+    animation-delay: 1s;
 }
 
 .firstResultContainer {
@@ -101,6 +111,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     animation: slideLeft 0.3s ease-in-out;
+    animation-delay: 1s;
 }
 
 .secondResultContainer {
