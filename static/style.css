@@ -59,7 +59,7 @@ body {
     border-radius: 15px;
 }
 
-.main .title {
+.title {
     display: block;
     color: black;
     text-decoration: none;
@@ -71,11 +71,11 @@ body {
     width: 20%;
 }
 
-.main .title:hover {
+.title:hover {
     transform: translateX(5px) scale(102%);
 }
 
-.main .title::before {
+.title::before {
     content: '';
     position: absolute;
     left: 0;
@@ -162,17 +162,12 @@ body {
     top: 0;
     left: 0;
     z-index: 97;
-    /* background-color: #999; */
     display: none;
 }
-
-
 
 .slideUp {
     animation: slideUp 0.3s ease-in-out;
 }
-
-
 
 .slideDown {
     animation: slideDown 0.3s ease-in-out;
@@ -308,7 +303,6 @@ input[type="radio"]:hover + label {
 .definitionContainer {
     box-shadow: 0px 0px 16px -8px rgba(66, 68, 90, 1);
     width: 1100px;
-    /* height: 470px; */
     background-color: white;
     padding: 25px 30px;
     border-radius: 15px;
@@ -317,7 +311,6 @@ input[type="radio"]:hover + label {
     margin-bottom: 52px;
     display: none;
     gap: 10px;
-    
 }
 
 
@@ -444,5 +437,4 @@ input[type="radio"]:hover + label {
         width: 95%;
         margin: auto;
     }
-
 }
